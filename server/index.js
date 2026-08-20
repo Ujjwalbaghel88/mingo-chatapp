@@ -8,7 +8,7 @@ import morgan from "morgan";
 import connectDB from "./src/config/db.js";
 import AuthRouter from "./src/routers/authRouter.js";
 import UserRouter from "./src/routers/userRouter.js";
-import webSocket from "./src/websocket/index.js";
+
 
 import http from "http";
 import { Server } from "socket.io";
