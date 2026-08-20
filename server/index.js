@@ -8,6 +8,11 @@ import morgan from "morgan";
 import connectDB from "./src/config/db.js";
 import AuthRouter from "./src/routers/authRouter.js";
 import UserRouter from "./src/routers/userRouter.js";
+import webSocket from "./src/websocket/index.js";
+
+import http from "http";
+import { Server } from "socket.io";
+
 
 const app = express();
 
@@ -42,7 +47,20 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, async () => {
+const httpServer = http.createServer(app);
+
+const io = new Server(httpServer, {
+  cors: {
+    origin: ["http://localhost:5173"],
+
+    credentials: true,
+    methods: ["GET", "POST"]
+  },
+});
+
+webSocket(io);
+
+httpServer.listen(PORT, async () => {
   await connectDB();
   console.log("🔗 Server started at port:", PORT);
 });
